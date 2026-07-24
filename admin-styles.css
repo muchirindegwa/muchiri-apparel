@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #fef9e6;
+  padding: 20px;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.login-box,
+.dashboard {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 400px;
+  margin: 100px auto;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: none;
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+button {
+  background: #b45f2b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.stat-card {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 15px;
+  border: 1px solid #f0e2ce;
+}
+.stat-card h3 {
+  font-size: 2rem;
+  color: #b45f2b;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+.data-table th {
+  background: #b45f2b;
+  color: white;
+}
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  background: #ddd;
+  color: #333;
+  width: auto;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: #b45f2b;
+  color: white;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.error-msg {
+  color: red;
+  margin-top: 10px;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #b45f2b;
+  text-decoration: none;
+  font-weight: bold;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+h2 {
+  margin-bottom: 20px;
+}

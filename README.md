@@ -18,22 +18,28 @@ The website currently includes:
 - A styling appointment booking form
 - A dark/light theme toggle
 - A WhatsApp floating action button for quick customer contact
+- A dynamic footer that automatically updates the copyright year to the current year
 - An admin page that lets you view orders, messages, and bookings after entering a password
 
 ## Project structure
 
 - index.html - The main storefront experience
+- styles.css - The storefront stylesheet moved out of the HTML
+- script.js - The storefront JavaScript logic moved out of the HTML
 - admin.html - The admin login and dashboard page
+- admin-styles.css - The admin page stylesheet moved out of the HTML
+- admin-script.js - The admin page JavaScript logic moved out of the HTML
 - README.md - Project documentation
 
 ## How it works
 
 The site is fully client-side:
 
-- Product data is defined directly in the JavaScript section of the storefront page
+- Product data, cart behavior, and storefront interactions are handled in the external JavaScript file for the main page
 - Cart and theme preferences are persisted locally in the browser with localStorage
 - Orders, contact messages, and bookings are also stored in localStorage for the admin dashboard
 - The storefront uses WhatsApp links for customer communication and order handling
+- The admin page uses its own separated stylesheet and script files for cleaner maintenance
 
 Because there is no backend database or server-side processing, this is best suited for a demo, portfolio site, or low-complexity storefront.
 
