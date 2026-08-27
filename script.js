@@ -1,14 +1,26 @@
 document.getElementById("copyright-year").innerHTML = `© ${new Date().getFullYear()} Muchiri's Clothing — Nairobi, Kenya`;
 
 const YOUR_NUMBER = "254742645551";
-const products = [
-  { id: 1, name: "Sahara Wave T-Shirt", price: 1850, category: "T-Shirt", description: "Stunning African-inspired design with wave patterns. Perfect for casual outings." },
-  { id: 2, name: "Urban Script T-Shirt", price: 1750, category: "T-Shirt", description: "Modern typography meets street style. Express yourself with this bold tee." },
-  { id: 3, name: "Muchiri Logo Tee", price: 1990, category: "T-Shirt", description: "Classic Muchiri branding on premium cotton. A wardrobe essential." },
-  { id: 4, name: "Coastal Breeze Hoodie", price: 3990, category: "Hoodie", description: "Breathable fabric with modern design. Great for cool weather." },
-  { id: 5, name: "Midnight Hoodie", price: 4290, category: "Hoodie", description: "Premium quality hoodie perfect for night outings. Comfortable and stylish." },
-  { id: 6, name: "Afro Fusion Hoodie", price: 4590, category: "Hoodie", description: "Bold African fusion design. Make a statement with this unique hoodie." },
+
+// Default products with Picsum image URLs (falls back when localStorage is empty)
+const defaultProducts = [
+  { id: 1, name: "Sahara Wave T-Shirt", price: 1850, category: "T-Shirt", description: "Stunning African-inspired design with wave patterns. Perfect for casual outings.", image: "https://picsum.photos/seed/tshirt1/800/600" },
+  { id: 2, name: "Urban Script T-Shirt", price: 1750, category: "T-Shirt", description: "Modern typography meets street style. Express yourself with this bold tee.", image: "https://picsum.photos/seed/tshirt2/800/600" },
+  { id: 3, name: "Muchiri Logo Tee", price: 1990, category: "T-Shirt", description: "Classic Muchiri branding on premium cotton. A wardrobe essential.", image: "https://picsum.photos/seed/tshirt3/800/600" },
+  { id: 4, name: "Coastal Breeze Hoodie", price: 3990, category: "Hoodie", description: "Breathable fabric with modern design. Great for cool weather.", image: "https://picsum.photos/seed/hoodie1/800/600" },
+  { id: 5, name: "Midnight Hoodie", price: 4290, category: "Hoodie", description: "Premium quality hoodie perfect for night outings. Comfortable and stylish.", image: "https://picsum.photos/seed/hoodie2/800/600" },
+  { id: 6, name: "Afro Fusion Hoodie", price: 4590, category: "Hoodie", description: "Bold African fusion design. Make a statement with this unique hoodie.", image: "https://picsum.photos/seed/hoodie3/800/600" },
 ];
+
+// Load products from localStorage if present, otherwise use defaults
+let products = (function(){
+  const stored = localStorage.getItem('muchiri_products');
+  if(stored){
+    try{ return JSON.parse(stored); }catch(e){ console.error('Failed to parse products from localStorage', e); }
+  }
+  return defaultProducts;
+})();
+
 const galleryImages = [
   "https://picsum.photos/id/20/300/200",
   "https://picsum.photos/id/26/300/200",
@@ -54,7 +66,7 @@ function updateCart() {
   cart.forEach((item) => {
     let itemTotal = item.price * item.qty;
     total += itemTotal;
-    html += `<div class="cart-item"><span>${item.name} x${item.qty}</span><span>KSh ${itemTotal} <button onclick="removeItem(${item.id})" style="background:red;padding:2px 8px;border-radius:20px;color:white;border:none;cursor:pointer;">✕</button></span></div>`;
+    html += `<div class="cart-item"><span>${item.name} x${item.qty}</span><span>KSh ${itemTotal} <button onclick="removeItem(${item.id})" style="background:red;padding:2px 8px;border-radius:20px;color:white;border:none;cursor:pointer">✕</button></span></div>`;
   });
   container.innerHTML = html;
   totalDiv.innerHTML = `Total: KSh ${total}`;
@@ -80,7 +92,7 @@ function updateWishlist() {
         <p style="color: #b45f2b;">KSh ${item.price}</p>
       </div>
       <div style="display: flex; gap: 5px;">
-        <button onclick="addToCart({id: ${item.id}, name: '${item.name}', price: ${item.price}})" style="background: #27ae60; padding: 5px 10px; border-radius: 15px; border: none; color: white; cursor: pointer;">Add</button>
+        <button onclick="addToCart({id: ${item.id}, name: '${item.name}', price: ${item.price}})" style="background: #27ae60; padding: 5px 10px; border-radius: 15px; border: none; color: white; cursor: pointer;">Add to Cart</button>
         <button onclick="removeFromWishlist(${item.id})" style="background: red; padding: 5px 10px; border-radius: 15px; border: none; color: white; cursor: pointer;">✕</button>
       </div>
     </div>`;
@@ -217,15 +229,15 @@ function renderProducts(filteredProducts = products) {
       (p) =>
         `<div class="product-card">
           <div style="position: relative;">
-            <div style="font-size:3rem;">${p.name.includes("Hoodie") ? "🧥" : "👕"}</div>
-            <button onclick="addToWishlist({id: ${p.id}, name: '${p.name}', price: ${p.price}})" class="wishlist-btn" title="Add to wishlist">
+            <img class="product-thumb" src="${p.image}" alt="${p.name} image" loading="lazy" />
+            <button onclick="addToWishlist({id: ${p.id}, name: '${p.name}', price: ${p.price}, image: '${p.image}'})" class="wishlist-btn" title="Add to wishlist">
               ${wishlist.find(w => w.id === p.id) ? '❤️' : '🤍'}
             </button>
           </div>
           <h3>${p.name}</h3>
           <div class="price">KSh ${p.price}</div>
           <button onclick="openProductModal(${p.id})">👁️ View Details</button>
-          <button onclick="addToCart({id: ${p.id}, name: '${p.name}', price: ${p.price}})">🛒 Add to Cart</button>
+          <button onclick="addToCart({id: ${p.id}, name: '${p.name}', price: ${p.price}, image: '${p.image}'})">🛒 Add to Cart</button>
         </div>`
     )
     .join("");
@@ -235,7 +247,7 @@ function openProductModal(productId) {
   currentProduct = products.find(p => p.id === productId);
   if (!currentProduct) return;
   
-  document.getElementById("modalProductImage").innerHTML = currentProduct.name.includes("Hoodie") ? "🧥" : "👕";
+  document.getElementById("modalProductImage").innerHTML = `<img src="${currentProduct.image}" alt="${currentProduct.name}" style="max-width:100%; height:auto; border-radius:12px;">`;
   document.getElementById("modalProductName").innerHTML = currentProduct.name;
   document.getElementById("modalProductPrice").innerHTML = `KSh ${currentProduct.price}`;
   document.getElementById("modalProductDesc").innerHTML = currentProduct.description;
@@ -246,7 +258,7 @@ function openProductModal(productId) {
   document.getElementById("modalAddToWishlistBtn").style.background = inWishlist ? '#c0392b' : '#e74c3c';
   
   document.getElementById("modalAddToCartBtn").onclick = () => {
-    addToCart({id: currentProduct.id, name: currentProduct.name, price: currentProduct.price});
+    addToCart({id: currentProduct.id, name: currentProduct.name, price: currentProduct.price, image: currentProduct.image});
     closeProductModal();
   };
   
