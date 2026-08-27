@@ -29,6 +29,7 @@
           <a onclick="scrollTo('products')">Shop</a>
           <a onclick="scrollTo('contact')">Contact</a>
           <button id="cartBtn">🛒 Cart (<span id="cartCount">0</span>)</button>
+          <button id="wishlistBtn">❤️ Wishlist (<span id="wishlistCount">0</span>)</button>
           <button id="themeBtn">🌙</button>
           <a
             href="admin.html"
@@ -46,6 +47,7 @@
       </div>
     </header>
 
+    <!-- CART SIDEBAR -->
     <div id="cartSidebar" class="cart-sidebar">
       <h3>Your Cart</h3>
       <div id="cartItems"></div>
@@ -57,6 +59,39 @@
       >
         Close
       </button>
+    </div>
+
+    <!-- WISHLIST SIDEBAR -->
+    <div id="wishlistSidebar" class="cart-sidebar wishlist-sidebar">
+      <h3>❤️ My Wishlist</h3>
+      <div id="wishlistItems"></div>
+      <button
+        id="closeWishlistBtn"
+        style="width: 100%; margin-top: 10px; background: gray"
+      >
+        Close
+      </button>
+    </div>
+
+    <!-- PRODUCT DETAILS MODAL -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeProductModal()">&times;</span>
+        <div class="modal-body">
+          <div id="modalProductImage" style="font-size: 4rem; text-align: center; margin-bottom: 20px;"></div>
+          <h2 id="modalProductName"></h2>
+          <p id="modalProductDesc" style="color: #666; margin: 10px 0;"></p>
+          <div style="margin: 15px 0;">
+            <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+            <p><strong>Available Sizes:</strong> XS, S, M, L, XL, XXL</p>
+            <p id="modalProductDetails"></p>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button id="modalAddToCartBtn" style="flex: 1; padding: 12px;">🛒 Add to Cart</button>
+            <button id="modalAddToWishlistBtn" style="flex: 1; padding: 12px; background: #e74c3c;">❤️ Add to Wishlist</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <main>
@@ -75,6 +110,27 @@
             <strong>0742645551</strong>
           </p>
           <button onclick="scrollTo('products')">Shop Now →</button>
+        </div>
+      </section>
+
+      <!-- SEARCH SECTION -->
+      <section id="search-section" style="padding: 20px 0; background: #f5f5f5;">
+        <div class="container">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="🔍 Search products by name..."
+              style="flex: 1; min-width: 200px; padding: 12px; border: 2px solid #b45f2b; border-radius: 30px; font-size: 1rem;"
+            />
+            <select id="categoryFilter" style="padding: 12px; border: 2px solid #b45f2b; border-radius: 30px; cursor: pointer; background: white;">
+              <option value="">All Categories</option>
+              <option value="T-Shirt">T-Shirts</option>
+              <option value="Hoodie">Hoodies</option>
+            </select>
+            <button onclick="clearSearch()" style="padding: 12px 20px;">Clear</button>
+          </div>
+          <p id="searchResults" style="margin-top: 10px; color: #666; font-size: 0.9rem;"></p>
         </div>
       </section>
 
